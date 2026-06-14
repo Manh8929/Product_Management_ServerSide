@@ -1,5 +1,6 @@
 const Product = require("../../models/products.model");
 const filterStatusHelper = require("../../helpers/filterStatusHelper")
+const searchHelper = require("../../helpers/searchHelper")
 // [GET] admin/products
 module.exports.product = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query)
@@ -9,11 +10,9 @@ module.exports.product = async (req, res) => {
   if (req.query.status) {
     find.status = req.query.status;
   }
-  let keyword = "";
-  if (req.query.keyword) {
-    keyword = req.query.keyword;
-    const regex = new RegExp(keyword, "i");
-    find.title = regex;
+  const objSearch = searchHelper(req.query)
+  if (objSearch.regex) {
+    find.title = objSearch.regex;
   }
   console.log("req", req);
   console.log(req.query.status);
@@ -23,6 +22,6 @@ module.exports.product = async (req, res) => {
     pageTitle: "Danh sach san pham",
     products: products,
     filterStatus: filterStatus,
-    keyword: keyword,
+    keyword: objSearch.keyword,
   });
 };
