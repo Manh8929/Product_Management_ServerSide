@@ -15,3 +15,40 @@ mixin pagination(pagination)
             if(pagination.currentPage > 1)
                 li(class ="page-item")
                     button(class ="page-link" button-pagination = 1) Trang đầu
+
+
+
+
+
+//- mixin pagination(pagination)
+    - 
+        var currentPage = parseInt(pagination.currentPage);
+        var totalPage = parseInt(pagination.totalPage);
+        var delta = 2; // số trang hiển thị xung qanh hiện tại
+        var range = [];
+        
+        for (var i = 1; i <= totalPage; i++) {
+            if (i == 1 || i == totalPage || (i >= currentPage - delta && i <= currentPage + delta)) {
+                range.push(i);
+            }
+        }
+
+    nav
+        ul(class="pagination")
+            if(currentPage > 1)
+                li(class="page-item")
+                    button(class="page-link" button-pagination=currentPage - 1) Trang trước
+
+            - var last = -1;
+            each i in range
+                if (last != -1 && i - last > 1)
+                    li(class="page-item")
+                        span(class="page-link") ...
+                
+                li(class=`page-item ${currentPage == i ? "active" : ""}`)
+                    button(class="page-link" button-pagination=i) #{i}
+                - last = i;
+
+            if(currentPage < totalPage)
+                li(class="page-item")
+                    button(class="page-link" button-pagination=currentPage + 1) Kế tiếp

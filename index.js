@@ -1,18 +1,18 @@
 const express = require('express');
+const methodOverride = require('method-override')
 const database = require("./config/database")
 require("dotenv").config();
-const route = require("./router/client/index.route");
-const routeAdmin = require("./router/admin/index.route");
 const systemConfig = require("./config/system")
+const routeAdmin = require("./router/admin/index.route");
+const route = require("./router/client/index.route");
 
 
+database.connect();
 
 const app = express();
 const port = process.env.PORT;
-database.connect();
+app.use(methodOverride('_method'))
 
-route(app);
-routeAdmin(app);
 
 app.set('views', './views');
 app.set('view engine', 'pug');
@@ -22,6 +22,8 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin
 
 app.use(express.static('public'));
 
+route(app);
+routeAdmin(app);
 
 
 
