@@ -39,14 +39,30 @@ module.exports.index = async (req, res) => {
   });
 };
 
-
 // [PATCH] admin/products/change-status/:status/:id
-module.exports.changeStatus = async (req,res)=>{
-  const status = req.params.status
-  const id = req.params.id
-  await Product.updateOne({_id: id},{status: status})
+module.exports.changeStatus = async (req, res) => {
+  const status = req.params.status;
+  const id = req.params.id;
+  await Product.updateOne({ _id: id }, { status: status });
 
   // res.redirect("/admin/products")
-  const referer = req.get('Referer') || '/admin/products'; // Đặt URL mặc định
+  const referer = req.get("Referer") || "/admin/products"; // Đặt URL mặc định
   res.redirect(referer);
-}
+};
+// [PATCH] admin/products/change-multi
+module.exports.changeMultiStatus = async (req, res) => {
+  const type = req.body.type;
+  const ids = req.body.ids.split(", ");
+  switch (type) {
+    case "active":
+      await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+      break;
+    case "inactive":
+      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      break;
+    default:
+      break;
+  }
+  const referer = req.get("Referer") || "/admin/products"; 
+  res.redirect(referer);
+};
