@@ -71,12 +71,12 @@ module.exports.changeMultiStatus = async (req, res) => {
 // [DELETE] admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
-    try {
-        await Product.deleteOne({ _id: id });
-        const referer = req.get("Referer") || "/admin/products"; // Đặt URL mặc định
-        res.redirect(referer);
-    } catch (error) {
-        console.error("Error deleting product:", error);
-        res.status(500).send("Có lỗi xảy ra khi xóa sản phẩm.");
-    }
+    // await Product.deleteOne({ _id: id });
+    await Product.updateOne({ _id: id },{
+      deleted: true,
+      deletedAt: new Date()
+    });
+
+    const referer = req.get("Referer") || "/admin/products";
+    res.redirect(referer);
 };
