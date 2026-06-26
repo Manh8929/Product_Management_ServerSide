@@ -57,15 +57,21 @@ module.exports.changeMultiStatus = async (req, res) => {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
       break;
-      case "inactive":
-        await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
-        break;
-        default:
-          break;
-        }
-        const referer = req.get("Referer") || "/admin/products"; 
-        res.redirect(referer);
-      };
+    case "inactive":
+      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      break;
+    case "delete-all":
+      await Product.updateMany({ _id: { $in: ids } }, { 
+        deleted: true,
+        deletedAt: new Date(),
+      });
+      break;
+    default:
+      break;
+  }
+  const referer = req.get("Referer") || "/admin/products"; 
+  res.redirect(referer);
+};
       
 
 // [DELETE] admin/products/delete/:id
