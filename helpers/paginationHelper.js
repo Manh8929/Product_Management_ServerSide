@@ -4,7 +4,7 @@ module.exports = (objPagination,query,countsProduct)=> {
   }
   objPagination.skip = (objPagination.currentPage - 1)*objPagination.limitItem;
   const totalPage = Math.ceil(countsProduct/objPagination.limitItem)
-  console.log(totalPage);
+  // console.log(totalPage);
   objPagination.totalPage = totalPage
   return objPagination;
 }

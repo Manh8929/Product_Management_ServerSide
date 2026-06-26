@@ -5,7 +5,7 @@ if (buttonStatus.length > 0) {
   buttonStatus.forEach((button) => {
     button.addEventListener("click", () => {
       const status = button.getAttribute("button-status");
-      console.log(status);
+      // console.log(status);
       if (status) {
         url.searchParams.set("status", status);
       } else {
@@ -22,7 +22,7 @@ const formSearch = document.querySelector("#form-search");
 
 if (formSearch) {
   let url = new URL(window.location.href);
-  console.log(url);
+  // console.log(url);
   formSearch.addEventListener("submit", (e) => {
     e.preventDefault();
     const keyword = e.target.elements.keyword.value;
@@ -38,7 +38,7 @@ if (formSearch) {
 //Pagination
 
 const buttonPagination = document.querySelectorAll("[button-pagination]");
-console.log("buttonPagination", buttonPagination);
+// console.log("buttonPagination", buttonPagination);
 
 if (buttonPagination) {
   buttonPagination.forEach((button) => {

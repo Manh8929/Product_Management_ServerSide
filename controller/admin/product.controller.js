@@ -57,12 +57,26 @@ module.exports.changeMultiStatus = async (req, res) => {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
       break;
-    case "inactive":
-      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
-      break;
-    default:
-      break;
-  }
-  const referer = req.get("Referer") || "/admin/products"; 
-  res.redirect(referer);
+      case "inactive":
+        await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+        break;
+        default:
+          break;
+        }
+        const referer = req.get("Referer") || "/admin/products"; 
+        res.redirect(referer);
+      };
+      
+
+// [DELETE] admin/products/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await Product.deleteOne({ _id: id });
+        const referer = req.get("Referer") || "/admin/products"; // Đặt URL mặc định
+        res.redirect(referer);
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        res.status(500).send("Có lỗi xảy ra khi xóa sản phẩm.");
+    }
 };
