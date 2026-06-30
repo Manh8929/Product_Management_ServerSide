@@ -70,6 +70,7 @@ module.exports.changeMultiStatus = async (req, res) => {
         deleted: true,
         deletedAt: new Date(),
       });
+      req.flash('success', `Successfully deleted ${ids.length} products.`);
       break;
     case "change-position":
       console.log(ids);
@@ -80,6 +81,7 @@ module.exports.changeMultiStatus = async (req, res) => {
           position: position
          });
       }
+      req.flash('success', `Successfully changed position ${ids.length} products.`);
 
       break;
     default:
@@ -98,6 +100,7 @@ module.exports.deleteItem = async (req, res) => {
       deleted: true,
       deletedAt: new Date()
     });
+    req.flash('success', `Delete Successfully `);
 
     const referer = req.get("Referer") || "/admin/products";
     res.redirect(referer);
