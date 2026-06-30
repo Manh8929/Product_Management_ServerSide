@@ -121,3 +121,21 @@ if (formChangeMulti) {
     }
   });
 }
+
+
+
+//Show alert
+const showAlert = document.querySelector("[show-alert]")
+console.log(showAlert);
+if(showAlert){
+
+  const time = parseInt(showAlert.getAttribute("data-time"))
+  const close = document.querySelector("[close-alert]")
+
+  setTimeout(()=>{
+    showAlert.classList.add("alert-hidden")
+  },time)
+  close.addEventListener("click",()=>{
+    showAlert.classList.add("alert-hidden")
+  })
+}

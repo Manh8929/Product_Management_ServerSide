@@ -45,6 +45,8 @@ module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
   await Product.updateOne({ _id: id }, { status: status });
+  
+  req.flash('success', 'Status Change Successful!');
 
   // res.redirect("/admin/products")
   const referer = req.get("Referer") || "/admin/products"; // Đặt URL mặc định
@@ -57,9 +59,11 @@ module.exports.changeMultiStatus = async (req, res) => {
   switch (type) {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+      req.flash('success', `${ids.length} Status Change Successful!`);
       break;
     case "inactive":
       await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      req.flash('success', `${ids.length} Status Change Successful!`);
       break;
     case "delete-all":
       await Product.updateMany({ _id: { $in: ids } }, { 
